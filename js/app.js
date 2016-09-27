@@ -1,6 +1,10 @@
 var ViewModel = function() {
     this.name = ko.observable('Denver Concerts Tonight');
     this.imgSrc = ko.observable('http://svcdn.simpleviewinc.com/v3/cache/www_denver_org/0F2C4CC295D7D062AF82C1078420EB26.jpg');
+    this.ogden = ko.observable('Ogden Theater');
+    this.bluebird = ko.observable('Bluebird Theater');
+    this.redrocks = ko.observable('Red Rocks');
+    this.threekings = ko.observable('Three Kings');
     
 }
 
@@ -95,7 +99,7 @@ ko.applyBindings(new ViewModel())
     var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">Bluebird Theater</h1>'+
+      '<h1 id="firstHeading" class="firstHeading"> BLUEBIRD THEATER</h1>'+
       '<div id="bodyContent">'+
       '<p> Todays date | SEATGEEK DATA GOES HERE </p>'+
       '</div>'+
