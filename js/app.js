@@ -111,8 +111,18 @@ ko.applyBindings(new ViewModel())
     title: 'Bluebird Theater'
     
   });
+  
+  var marker2 = new google.maps.Marker({
+    position: {lat: 39.7403, lng: -104.9753},
+    map: map,
+    title: 'Ogden Theater'
+    
+  });
+  
+
   marker.addListener('click', function() {
     infowindow.open(map, marker);
+    infowindow.open(map, marker2);
   });
   
       }
