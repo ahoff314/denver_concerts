@@ -36,13 +36,11 @@
 <body>
 
     <div class="jumbotron text-center">
-        <h1 data-bind="text: name"></h1>
+        <h1> Denver Concerts Tonight</h1>
     </div>
     
-    <select id="multiselect-includeSelectAllOption" multiple="multiple">
-      <option value="cheese">Bluebird Theater</option>
-      <option value="tomatoes">Ogden Theater</option>
-      <option value="mozarella">Larimer Lounge</option>
+    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="foreach: venuesArray">
+      <option data-bind="text: $data"></option>
     </select>
     
     <div id="map"></div>

@@ -1,10 +1,21 @@
 var ViewModel = function() {
-    this.name = ko.observable('Denver Concerts Tonight');
-    this.imgSrc = ko.observable('http://svcdn.simpleviewinc.com/v3/cache/www_denver_org/0F2C4CC295D7D062AF82C1078420EB26.jpg');
-    this.ogden = ko.observable('Ogden Theater');
-    this.bluebird = ko.observable('Bluebird Theater');
-    this.redrocks = ko.observable('Red Rocks');
-    this.threekings = ko.observable('Three Kings');
+    
+    this.venuesArray = ko.observableArray([
+            "Bluebird Theater",
+            "Ogden Theater",
+            "Hi Dive",
+            "Fillmore",
+            "Paramount Theatre",
+            "Larimer Lounge",
+            "Summit Music Hall",
+            "3 Kings",
+            "Cervantes",
+            "Gothic Theater",
+        
+    ]);
+    
+ 
+ 
     
 }
 
