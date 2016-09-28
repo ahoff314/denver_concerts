@@ -130,6 +130,14 @@ ko.applyBindings(new ViewModel())
   });
   
       }
+      
+
+    $(document).ready(function() {
+        $('#multiselect-includeSelectAllOption').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+
     
 
 
