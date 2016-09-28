@@ -25,7 +25,7 @@ ko.applyBindings(new ViewModel())
         // Styles a map in night mode via Google Maps API documentation
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.7392, lng: -104.9903},
-          zoom: 14,
+          zoom: 13,
           styles: [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -119,7 +119,7 @@ ko.applyBindings(new ViewModel())
         ['Summit Music Hall', 39.7533, -104.9951],
         ['3 Kings', 39.7154, -104.9873],
         ['Cervantes', 39.7545, -104.9787],
-        ['Gothic Theater', 39.76577, -104.9878]
+        ['Gothic Theatre', 39.6577, -104.9878]
         
         ]    
     var contentString = '<div id="content">'+
@@ -135,21 +135,36 @@ ko.applyBindings(new ViewModel())
     content: contentString
   });
   
-        
-    var marker = new google.maps.Marker({
-    position: {lat: 39.7403, lng: -104.9484},
-    map: map,
-    title: 'Bluebird Theater'
+
+   for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+      
+      
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }  
+      
+    //var marker = new google.maps.Marker({
+    //position: {lat: 39.7403, lng: -104.9484},
+    //map: map,
+    //title: 'Bluebird Theater'
     
-  });
+  //});
   
   
 
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+  //marker.addListener('click', function() {
+    //infowindow.open(map, marker);
+  //});
   
-      }
+     }
       
 
     $(document).ready(function() {

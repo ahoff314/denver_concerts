@@ -349,7 +349,7 @@
             enableHTML: false,
             buttonClass: 'btn btn-default',
             inheritClass: false,
-            buttonWidth: 'auto',
+            buttonWidth: '400px', // Changed button width to fixed px
             buttonContainer: '<div class="btn-group" />',
             dropRight: false,
             dropUp: false,

@@ -5,3 +5,10 @@
     font-family: 'Actor', sans-serif !important;
     
 }
+
+.list {
+    position:relative !important;
+    left:10px;
+    top: 10px;
+    z-index:2 !important;
+}
