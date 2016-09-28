@@ -14,7 +14,7 @@ var ViewModel = function() {
         
     ]);
     
- 
+    // If concert tonight, push venue into new array
  
     
 }
@@ -107,18 +107,34 @@ ko.applyBindings(new ViewModel())
             }
           ]
         });
+        
+    var locations = [
+        
+        ['Bluebird Theater', 39.7403, -104.9484],
+        ['Ogden Theater', 39.7403, -104.9484],
+        ['Hi Dive', 39.7163, -104.9879],
+        ['Fillmore', 39.7406, -104.9772],
+        ['Paramount Theatre', 39.7444, -104.9903],
+        ['Larimer Lounge', 39.7599, -104.9838],
+        ['Summit Music Hall', 39.7533, -104.9951],
+        ['3 Kings', 39.7154, -104.9873],
+        ['Cervantes', 39.7545, -104.9787],
+        ['Gothic Theater', 39.76577, -104.9878]
+        
+        ]    
     var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading"> BLUEBIRD THEATER</h1>'+
       '<div id="bodyContent">'+
-      '<p> Todays date | SEATGEEK DATA GOES HERE </p>'+
+      '<p> Todays date | Seat Geek // SongKick data goes here</p>'+
       '</div>'+
       '</div>';
 
   var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
+  
         
     var marker = new google.maps.Marker({
     position: {lat: 39.7403, lng: -104.9484},
@@ -127,17 +143,10 @@ ko.applyBindings(new ViewModel())
     
   });
   
-  var marker2 = new google.maps.Marker({
-    position: {lat: 39.7403, lng: -104.9753},
-    map: map,
-    title: 'Ogden Theater'
-    
-  });
   
 
   marker.addListener('click', function() {
     infowindow.open(map, marker);
-    infowindow.open(map, marker2);
   });
   
       }
