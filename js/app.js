@@ -1,23 +1,23 @@
 var ViewModel = function() {
     
     this.venuesArray = ko.observableArray([
-        ['Bluebird Theater', 39.7403, -104.9484],
-        ['Ogden Theater', 39.7403, -104.9484],
-        ['Hi Dive', 39.7163, -104.9879],
-        ['Fillmore', 39.7406, -104.9772],
-        ['Paramount Theatre', 39.7444, -104.9903],
-        ['Larimer Lounge', 39.7599, -104.9838],
-        ['Summit Music Hall', 39.7533, -104.9951],
-        ['3 Kings', 39.7154, -104.9873],
-        ['Cervantes', 39.7545, -104.9787],
-        ['Gothic Theatre', 39.6577, -104.9878]
+        'Bluebird Theater',
+        'Ogden Theater',
+        'Hi Dive',
+        'Fillmore',
+        'Paramount Theatre',
+        'Larimer Lounge',
+        'Summit Music Hall',
+        '3 Kings',
+        'Cervantes',
+        'Gothic Theatre',
+        'Fuck Theatre'
         
     ]);
     
-    // If concert tonight, push venue into new array
+    selectedVenues = ko.observableArray([]);
     
- 
-    
+    //console.log(selectedVenues().length)
 }
 
 ko.applyBindings(new ViewModel())
