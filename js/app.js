@@ -1,20 +1,20 @@
 var ViewModel = function() {
     
     this.venuesArray = ko.observableArray([
-        'Bluebird Theater',
-        'Ogden Theater',
-        'Hi Dive',
-        'Fillmore',
-        'Paramount Theatre',
-        'Larimer Lounge',
-        'Summit Music Hall',
-        '3 Kings',
-        'Cervantes',
-        'Gothic Theatre',
-        'Fuck Theatre'
+        {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
+        {name: 'Ogden Theater', lat: 39.7403, lng: -104.9484},
+        {name: 'Hi Dive', lat: 39.7163, lng: -104.9879},
+        {name: 'Fillmore', lat: 39.7406, lng: -104.9772},
+        {name: 'Paramount Theatre', lat: 39.7444, lng: -104.9903},
+        {name: 'Larimer Lounge', lat: 39.7599, lng: -104.9838},
+        {name: 'Summit Music Hall', lat: 39.7533, lng: -104.9951},
+        {name: '3 Kings', lat: 39.7154, lng: -104.9873},
+        {name: 'Cervantes', lat: 39.7545, lng: -104.9787},
+        {name: 'Gothic Theatre', lat: 39.6577, lng: -104.9878}
         
     ]);
     
+   
     selectedVenues = ko.observableArray([]);
     
     //console.log(selectedVenues().length)

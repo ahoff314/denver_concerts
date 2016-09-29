@@ -39,7 +39,8 @@
         <h1> Denver Concerts Tonight</h1>
     </div>
     
-    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venuesArray, selectedOptions: selectedVenues">
+    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venuesArray, 
+    optionsText: 'name', optionsValue: 'name', selectedOptions: selectedVenues">
     </select>
     
     <div id="map">
