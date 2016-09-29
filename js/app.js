@@ -1,20 +1,21 @@
 var ViewModel = function() {
     
     this.venuesArray = ko.observableArray([
-            "Bluebird Theater",
-            "Ogden Theater",
-            "Hi Dive",
-            "Fillmore",
-            "Paramount Theatre",
-            "Larimer Lounge",
-            "Summit Music Hall",
-            "3 Kings",
-            "Cervantes",
-            "Gothic Theater",
+        ['Bluebird Theater', 39.7403, -104.9484],
+        ['Ogden Theater', 39.7403, -104.9484],
+        ['Hi Dive', 39.7163, -104.9879],
+        ['Fillmore', 39.7406, -104.9772],
+        ['Paramount Theatre', 39.7444, -104.9903],
+        ['Larimer Lounge', 39.7599, -104.9838],
+        ['Summit Music Hall', 39.7533, -104.9951],
+        ['3 Kings', 39.7154, -104.9873],
+        ['Cervantes', 39.7545, -104.9787],
+        ['Gothic Theatre', 39.6577, -104.9878]
         
     ]);
     
     // If concert tonight, push venue into new array
+    
  
     
 }
@@ -131,10 +132,12 @@ ko.applyBindings(new ViewModel())
       '</div>'+
       '</div>';
 
-  var infowindow = new google.maps.InfoWindow({
+
+         var infowindow = new google.maps.InfoWindow({
     content: contentString
   });
   
+ 
 
    for (i = 0; i < locations.length; i++) {  
         marker = new google.maps.Marker({
@@ -145,12 +148,13 @@ ko.applyBindings(new ViewModel())
       
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent(locations[i][0]);
+          infowindow.setContent(this.locations[i][0]);
           infowindow.open(map, marker);
         }
       })(marker, i));
     }  
-      
+    
+
     //var marker = new google.maps.Marker({
     //position: {lat: 39.7403, lng: -104.9484},
     //map: map,
@@ -169,12 +173,8 @@ ko.applyBindings(new ViewModel())
 
     $(document).ready(function() {
         $('#multiselect-includeSelectAllOption').multiselect({
-            includeSelectAllOption: true
+            includeSelectAllOption: true,
+            enableCaseInsensitiveFiltering: true
         });
     });
 
-    
-
-
-// ko observable or array or for loop that 
-// loops through each marker in array and attaches infowindow to it dynamically
