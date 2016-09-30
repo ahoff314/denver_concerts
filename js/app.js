@@ -1,4 +1,7 @@
+var map;
+
 var ViewModel = function() {
+    
     
     this.venuesArray = ko.observableArray([
         {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
@@ -14,39 +17,57 @@ var ViewModel = function() {
         
     ]);
     
+    
+    this.venuesArray().forEach(function (venue) {
+
+        var marker = new google.maps.Marker({
+          map: map,
+          position: new google.maps.LatLng(venue.lat, venue.lng),
+          title: venue.name,
+        });
+    
+    venue.marker = marker;
+    });
    
+    
     selectedVenues = ko.observableArray([]);
     
-/*
+  
+  /*  
+     for (i = 0; i < selectedVenues().length; i++) {  
+        console.log(selectedVenues()[i])
+      };
     
+
+  
          var infowindow = new google.maps.InfoWindow({
   });
   
  
 
-   for (i = 0; i < selectedVenues.length; i++) {  
+   for (i = 0; i < this.venuesArray().length; i++) {  
         marker = new google.maps.Marker({
-        position: new google.maps.LatLng(selectedVenues[i][1], selectedVenues[i][2]),
+        position: new google.maps.LatLng(39.7403, -104.9484),
         map: map
       });
       
       
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent(this.selectedVenues[i][0]);
+          infowindow.setContent(selectedVenues());
           infowindow.open(map, marker);
         }
       })(marker, i));
     }  
-    */
-    //console.log(selectedVenues().length)
+*/
+
 }
 
-ko.applyBindings(new ViewModel())
 
 
     function initMap() {
-        // Styles a map in night mode via Google Maps API documentation4
+        // Styles a map in night mode via Google Maps API documentation
+            
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.7392, lng: -104.9903},
           zoom: 13,
@@ -130,7 +151,10 @@ ko.applyBindings(new ViewModel())
               stylers: [{color: '#17263c'}]
             }
           ]
+          
         });
+        
+        ko.applyBindings(new ViewModel())
     
      }
 
