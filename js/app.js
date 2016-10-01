@@ -1,5 +1,5 @@
-var map;
 
+let marker = []
 var ViewModel = function() {
     
     
@@ -18,17 +18,31 @@ var ViewModel = function() {
     ]);
     
     
+    /*
     this.venuesArray().forEach(function (venue) {
 
-        var marker = new google.maps.Marker({
+        this.marker = new google.maps.Marker({
           map: map,
           position: new google.maps.LatLng(venue.lat, venue.lng),
           title: venue.name,
-        });
+          animation: google.maps.Animation.DROP
+        }, this);
     
     venue.marker = marker;
+    
+    var i;
+    
+    this.marker.addListener('click', function() {
+            // toggle the marker animation
+            this.toggleBounce(this);
+            // show the info window
+            this.populateInfoWindow(this, this.infoWindow);
+        });
+    
+    
     });
-   
+    
+    */
     
     selectedVenues = ko.observableArray([]);
     
@@ -67,6 +81,7 @@ var ViewModel = function() {
 
     function initMap() {
         // Styles a map in night mode via Google Maps API documentation
+          
             
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.7392, lng: -104.9903},
@@ -153,6 +168,17 @@ var ViewModel = function() {
           ]
           
         });
+        
+        var myLatLng = {lat: 39.7403, lng: -104.9484};
+        
+    marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+  
+    
+
         
         ko.applyBindings(new ViewModel())
     
