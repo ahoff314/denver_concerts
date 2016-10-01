@@ -1,9 +1,14 @@
+var map;
+var marker;
+var markers = [];
+var self = this;
 
-let marker = []
+
+
 var ViewModel = function() {
     
     
-    this.venuesArray = ko.observableArray([
+    self.venuesArray = ko.observableArray([
         {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
         {name: 'Ogden Theater', lat: 39.7403, lng: -104.9484},
         {name: 'Hi Dive', lat: 39.7163, lng: -104.9879},
@@ -16,7 +21,8 @@ var ViewModel = function() {
         {name: 'Gothic Theatre', lat: 39.6577, lng: -104.9878}
         
     ]);
-    
+     
+ 
     
     /*
     this.venuesArray().forEach(function (venue) {
@@ -167,15 +173,9 @@ var ViewModel = function() {
             }
           ]
           
+          
         });
         
-        var myLatLng = {lat: 39.7403, lng: -104.9484};
-        
-    marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
   
     
 
