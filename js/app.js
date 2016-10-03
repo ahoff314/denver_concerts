@@ -5,10 +5,12 @@ var self = this;
 
 
 
+
 var ViewModel = function() {
     
     
-    self.venuesArray = ko.observableArray([
+    self.venues = ko.observableArray([
+      
         {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
         {name: 'Ogden Theater', lat: 39.7403, lng: -104.9484},
         {name: 'Hi Dive', lat: 39.7163, lng: -104.9879},
@@ -19,13 +21,42 @@ var ViewModel = function() {
         {name: '3 Kings', lat: 39.7154, lng: -104.9873},
         {name: 'Cervantes', lat: 39.7545, lng: -104.9787},
         {name: 'Gothic Theatre', lat: 39.6577, lng: -104.9878}
+       
         
-    ]);
-     
- 
+        ]);
+        
+        self.venues().forEach(function (venue) {
+          
+          var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(venue.lat, venue.lng),
+            title: venue.name,
+            animation: google.maps.Animation.DROP
+          })
+          
+          venue.marker = marker;
+          
+          
+          
+        });
+        
+        
+        
+        
     
-    /*
-    this.venuesArray().forEach(function (venue) {
+        selectedVenues = ko.observableArray();
+        
+        
+        
+    
+    
+     // create map markers
+     
+     /*
+     venue = venuesArray();
+    
+    
+    this.venuesArray.forEach(function (venue) {
 
         this.marker = new google.maps.Marker({
           map: map,
@@ -50,35 +81,16 @@ var ViewModel = function() {
     
     */
     
-    selectedVenues = ko.observableArray([]);
+    
+    
+    
     
   
   /*  
      for (i = 0; i < selectedVenues().length; i++) {  
         console.log(selectedVenues()[i])
       };
-    
-
-  
-         var infowindow = new google.maps.InfoWindow({
-  });
-  
  
-
-   for (i = 0; i < this.venuesArray().length; i++) {  
-        marker = new google.maps.Marker({
-        position: new google.maps.LatLng(39.7403, -104.9484),
-        map: map
-      });
-      
-      
-    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(selectedVenues());
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }  
 */
 
 }
@@ -87,7 +99,7 @@ var ViewModel = function() {
 
     function initMap() {
         // Styles a map in night mode via Google Maps API documentation
-          
+        var marker;
             
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.7392, lng: -104.9903},
@@ -172,17 +184,36 @@ var ViewModel = function() {
               stylers: [{color: '#17263c'}]
             }
           ]
-          
+           
           
         });
         
+        //var venues = self.venuesArray();
+        /*
+          for (i = 0; i < venues.length; i++) {  
+         marker = new google.maps.Marker({
+         position: new google.maps.LatLng(venues[i][1], venues[i][2]),
+         map: map
+       });
+       
+       
+     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+         return function() {
+           infowindow.setContent(venues[i][0]);
+           infowindow.open(map, marker);
+         }
+       })(marker, i));
+     } 
+        */
+        
+  
   
     
 
         
-        ko.applyBindings(new ViewModel())
+        ko.applyBindings(new ViewModel());
     
-     }
+     };
 
       
 

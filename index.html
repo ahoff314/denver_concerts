@@ -39,9 +39,12 @@
         <h1> Denver Concerts Tonight</h1>
     </div>
     
-    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venuesArray,
+    
+    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venues,
     optionsText: 'name', optionsValue: 'name', selectedOptions: selectedVenues">
     </select>
+    
+    <!-- optionsText: 'name' -->
     
     <div id="map">
       
@@ -49,7 +52,7 @@
     
     <script src="js/lib/knockout-3.4.0.js"></script>
     <script src="js/app.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnADKa7KoyLpKvRYdLfFEabVV7wL10vQo&callback=initMap"n></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnADKa7KoyLpKvRYdLfFEabVV7wL10vQo&callback=initMap"></script>
 </body>
 </html>
 
