@@ -9,7 +9,7 @@ var ViewModel = function() {
     self.venues = ko.observableArray([
       
         {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
-        {name: 'Ogden Theater', lat: 39.7403, lng: -104.9484},
+        {name: 'Ogden Theater', lat: 39.7403, lng: -104.9753},
         {name: 'Hi Dive', lat: 39.7163, lng: -104.9879},
         {name: 'Fillmore', lat: 39.7406, lng: -104.9772},
         {name: 'Paramount Theatre', lat: 39.7444, lng: -104.9903},
@@ -21,6 +21,10 @@ var ViewModel = function() {
        
         
         ]);
+        
+        var infowindow = new google.maps.InfoWindow({
+          
+        }); 
         
         self.venues().forEach(function (venue) {
           
@@ -34,8 +38,9 @@ var ViewModel = function() {
           this.venues.marker = marker;
           
           
-          
         });
+        
+
         
         
         
@@ -44,43 +49,6 @@ var ViewModel = function() {
         selectedVenues = ko.observableArray();
         
         
-        
-    
-    
-     // create map markers
-     
-     /*
-     venue = venuesArray();
-    
-    
-    this.venuesArray.forEach(function (venue) {
-
-        this.marker = new google.maps.Marker({
-          map: map,
-          position: new google.maps.LatLng(venue.lat, venue.lng),
-          title: venue.name,
-          animation: google.maps.Animation.DROP
-        }, this);
-    
-    venue.marker = marker;
-    
-    var i;
-    
-    this.marker.addListener('click', function() {
-            // toggle the marker animation
-            this.toggleBounce(this);
-            // show the info window
-            this.populateInfoWindow(this, this.infoWindow);
-        });
-    
-    
-    });
-    
-    */
-    
-    
-    
-    
     
   
   /*  
@@ -183,29 +151,7 @@ var ViewModel = function() {
            
           
         });
-        
-        
-        //var venues = self.venuesArray();
-        /*
-          for (i = 0; i < venues.length; i++) {  
-         marker = new google.maps.Marker({
-         position: new google.maps.LatLng(venues[i][1], venues[i][2]),
-         map: map
-       });
-       
-       
-     google.maps.event.addListener(marker, 'click', (function(marker, i) {
-         return function() {
-           infowindow.setContent(venues[i][0]);
-           infowindow.open(map, marker);
-         }
-       })(marker, i));
-     } 
-        */
-        
-  
-  
-    
+
 
         
         ko.applyBindings(new ViewModel());
