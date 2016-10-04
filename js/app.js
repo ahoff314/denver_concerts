@@ -1,9 +1,6 @@
-var map;
-var marker;
-var markers = [];
+var denverMap;
 var self = this;
-
-
+var marker;
 
 
 var ViewModel = function() {
@@ -27,14 +24,14 @@ var ViewModel = function() {
         
         self.venues().forEach(function (venue) {
           
-          var marker = new google.maps.Marker({
-            map: map,
+          this.venues.marker = new google.maps.Marker({
+            map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
             title: venue.name,
             animation: google.maps.Animation.DROP
           })
           
-          venue.marker = marker;
+          this.venues.marker = marker;
           
           
           
@@ -99,9 +96,8 @@ var ViewModel = function() {
 
     function initMap() {
         // Styles a map in night mode via Google Maps API documentation
-        var marker;
             
-        var map = new google.maps.Map(document.getElementById('map'), {
+        denverMap = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 39.7392, lng: -104.9903},
           zoom: 13,
           styles: [
@@ -187,6 +183,7 @@ var ViewModel = function() {
            
           
         });
+        
         
         //var venues = self.venuesArray();
         /*
