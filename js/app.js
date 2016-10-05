@@ -2,7 +2,6 @@ var denverMap;
 var self = this;
 var marker;
 
-
 var ViewModel = function() {
     
     
@@ -28,23 +27,26 @@ var ViewModel = function() {
         
         self.venues().forEach(function (venue) {
           
-          this.venues.marker = new google.maps.Marker({
+          self.venues.marker = new google.maps.Marker({
             map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
             title: venue.name,
             animation: google.maps.Animation.DROP
           })
           
-          this.venues.marker = marker;
+          marker = self.venues.marker
+          
+          marker.addListener('click', (function() {
+        
+          infowindow.setContent(venue.name);
+          infowindow.open(denverMap, this);
+         }));
+          
           
           
         });
         
-
-        
-        
-        
-        
+      
     
         selectedVenues = ko.observableArray();
         
@@ -151,6 +153,7 @@ var ViewModel = function() {
            
           
         });
+        
 
 
         
