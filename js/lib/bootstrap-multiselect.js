@@ -359,7 +359,7 @@
             maxHeight: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: ' Select All Venues With A Concert Tonight',
+            selectAllText: ' Select All Venues',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,

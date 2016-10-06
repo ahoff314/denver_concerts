@@ -2,6 +2,8 @@ var denverMap;
 var self = this;
 var marker;
 
+
+
 var ViewModel = function() {
     
     
@@ -21,11 +23,13 @@ var ViewModel = function() {
         
         ]);
         
-        // Selected venues
+        // Define info window
+        
+        
+        // Selected venues filter
         selectedVenues = ko.observableArray([]);
         
         // Return selected values
-        
         selected = ko.computed( function() {
           if (self.selectedVenues().length === 0) {
             return self.venues();
@@ -34,20 +38,22 @@ var ViewModel = function() {
               var filter = venue.name
               var match = self.selectedVenues().includes(filter)
               return match;
+              
             })
           }
         })
         
+        // var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXXXXXX")
         
         
         var infowindow = new google.maps.InfoWindow({
           
         }); 
         
-        // Loop through array to drop marker on each venues
-        self.venues().forEach(function (venue) {
+        // Loop through array to drop marker on each venue
+        self.selected().forEach(function (venue) {
           
-          self.venues.marker = new google.maps.Marker({
+            self.venues.marker = new google.maps.Marker({
             map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
             title: venue.name,
@@ -58,13 +64,16 @@ var ViewModel = function() {
           
           // Add listener for info windows on each map marker
           marker.addListener('click', (function() {
-          infowindow.setContent(venue.name);
-          infowindow.open(denverMap, this);
+            infowindow.setContent(venue.name);
+            infowindow.open(denverMap, this);
+            
          }));
           
           
           
         });
+        
+        
         
         
         
@@ -179,7 +188,7 @@ var ViewModel = function() {
      };
 
       
-
+    // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
     $(document).ready(function() {
         $('#multiselect-includeSelectAllOption').multiselect({
             includeSelectAllOption: true,
