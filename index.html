@@ -39,10 +39,11 @@
         <h1> Denver Concerts Tonight</h1>
     </div>
     
-    
+
     <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venues,
-    optionsText: 'name', optionsValue: 'name', selectedOptions: selectedVenues">
+    selectedOptions: selectedVenues, optionsText: 'name', optionsValue: 'name', visible: venues">
     </select>
+    
 
     
     <div id="map"></div>

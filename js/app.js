@@ -21,10 +21,30 @@ var ViewModel = function() {
         
         ]);
         
+        // Selected venues
+        selectedVenues = ko.observableArray([]);
+        
+        // Return selected values
+        
+        selected = ko.computed( function() {
+          if (self.selectedVenues().length === 0) {
+            return self.venues();
+          } else {
+            return ko.utils.arrayFilter(self.venues(), function(venue) {
+              var filter = venue.name
+              var match = self.selectedVenues().includes(filter)
+              return match;
+            })
+          }
+        })
+        
+        
+        
         var infowindow = new google.maps.InfoWindow({
           
         }); 
         
+        // Loop through array to drop marker on each venues
         self.venues().forEach(function (venue) {
           
           self.venues.marker = new google.maps.Marker({
@@ -36,8 +56,8 @@ var ViewModel = function() {
           
           marker = self.venues.marker
           
+          // Add listener for info windows on each map marker
           marker.addListener('click', (function() {
-        
           infowindow.setContent(venue.name);
           infowindow.open(denverMap, this);
          }));
@@ -46,9 +66,6 @@ var ViewModel = function() {
           
         });
         
-      
-    
-        selectedVenues = ko.observableArray();
         
         
     
