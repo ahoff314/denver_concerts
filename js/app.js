@@ -30,18 +30,6 @@ var ViewModel = function() {
         selectedVenues = ko.observableArray([]);
         
         // Return selected values
-        selected = ko.computed( function() {
-          if (self.selectedVenues().length === 0) {
-            return self.venues();
-          } else {
-            return ko.utils.arrayFilter(self.venues(), function(venue) {
-              var filter = venue.name
-              var match = self.selectedVenues().includes(filter)
-              return match;
-              
-            })
-          }
-        })
         
         // var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXXXXXX")
         
@@ -51,7 +39,7 @@ var ViewModel = function() {
         }); 
         
         // Loop through array to drop marker on each venue
-        self.selected().forEach(function (venue) {
+        self.venues().forEach(function (venue) {
           
             self.venues.marker = new google.maps.Marker({
             map: denverMap,
@@ -73,11 +61,21 @@ var ViewModel = function() {
           
         });
         
+         selected = ko.computed( function() {
+          if (self.selectedVenues().length === 0) {
+            return self.venues();
+          } else {
+            return ko.utils.arrayFilter(self.venues(), function(venue) {
+              var filter = venue.name
+              var match = self.selectedVenues().includes(filter)
+              venue.marker.setVisible(match);
+              return match;
+              
+            })
+          }
+        })
         
         
-        
-        
-    
   
   /*  
      for (i = 0; i < selectedVenues().length; i++) {  
