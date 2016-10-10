@@ -34,8 +34,9 @@ var ViewModel = function() {
         // var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXXXXXX")
         
         
-        var infowindow = new google.maps.InfoWindow({
-          
+         var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXX", function(data)
+        {
+            console.log(data.resultsPage.results.event[0].displayName)
         }); 
         
         // Loop through array to drop marker on each venue
@@ -48,6 +49,7 @@ var ViewModel = function() {
             animation: google.maps.Animation.DROP
           })
           
+          
           marker = self.venues.marker
           
           // Add listener for info windows on each map marker
@@ -57,9 +59,9 @@ var ViewModel = function() {
             
          }));
           
-          
-          
+        return marker;
         });
+        
         
          selected = ko.computed( function() {
           if (self.selectedVenues().length === 0) {
@@ -68,7 +70,8 @@ var ViewModel = function() {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
               var filter = venue.name
               var match = self.selectedVenues().includes(filter)
-              venue.marker.setVisible(match);
+              //console.log(match[0].name)
+              //venue.marker.setVisible(match);
               return match;
               
             })
