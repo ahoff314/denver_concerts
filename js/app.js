@@ -31,7 +31,14 @@ var ViewModel = function() {
         
         // Return selected values
         
-        // var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXXXXXX")
+        var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXX", function(data)
+        {
+            console.log(data.resultsPage.results.event[0].displayName)
+            console.log(data.resultsPage.results.event[1].displayName)
+            console.log(data.resultsPage.results.event[2].displayName)
+        });
+
+        console.log(concert);
         
         
         var infowindow = new google.maps.InfoWindow({
@@ -68,7 +75,7 @@ var ViewModel = function() {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
               var filter = venue.name
               var match = self.selectedVenues().includes(filter)
-              venue.marker.setVisible(match);
+              //venue.marker.setVisible(match);
               return match;
               
             })
