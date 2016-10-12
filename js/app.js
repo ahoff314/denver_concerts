@@ -1,6 +1,7 @@
 var denverMap;
 var self = this;
 var marker;
+venues = [];
 
 
 
@@ -22,82 +23,73 @@ var ViewModel = function() {
        
         
         ]);
-        
-        // Define info window
-        
-        
-        // Selected venues filter
-        selectedVenues = ko.observableArray([]);
-        
-        // Return selected values
-        
-        var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXXX", function(data)
-        {
-            console.log(data.resultsPage.results.event[0].displayName)
-            console.log(data.resultsPage.results.event[1].displayName)
-            console.log(data.resultsPage.results.event[2].displayName)
+
+    // Selected venues filter
+    selectedVenues = ko.observableArray([]);
+
+        var infowindow = new google.maps.InfoWindow({
+
         });
 
-        console.log(concert);
-        
-        
-         var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXXX", function(data)
-        {
-            console.log(data.resultsPage.results.event[0].displayName)
-        }); 
-        
-        // Loop through array to drop marker on each venue
+    // Loop through array to drop marker on each venue
         self.venues().forEach(function (venue) {
           
-            self.venues.marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
             map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
             title: venue.name,
             animation: google.maps.Animation.DROP
           })
-          
-          
-          marker = self.venues.marker
+
           
           // Add listener for info windows on each map marker
           marker.addListener('click', (function() {
             infowindow.setContent(venue.name);
             infowindow.open(denverMap, this);
-            
+
          }));
-          
+        //console.log(marker)
         return marker;
         });
-        
-        
-         selected = ko.computed( function() {
-          if (self.selectedVenues().length === 0) {
-            return self.venues();
-          } else {
-            return ko.utils.arrayFilter(self.venues(), function(venue) {
-              var filter = venue.name
-              var match = self.selectedVenues().includes(filter)
-<<<<<<< HEAD
-=======
-              //console.log(match[0].name)
->>>>>>> b5f4579c8fd1893d3499fbe3fcc5617b441d64ff
-              //venue.marker.setVisible(match);
-              return match;
-              
-            })
-          }
-        })
-        
-        
-  
-  /*  
-     for (i = 0; i < selectedVenues().length; i++) {  
-        console.log(selectedVenues()[i])
-      };
- 
-*/
 
-}
+    // Return selected values
+    selected = ko.computed( function() {
+        if (self.selectedVenues().length === 0) {
+            return self.venues();
+        } else {
+            return ko.utils.arrayFilter(self.venues(), function(venue) {
+                var filter = venue.name
+                var match = self.selectedVenues().includes(filter)
+                for (var i=0; i < self.selectedVenues.length; i++){
+                    marker[i].setVisible(true);
+
+                }
+
+                console.log(match)
+                return match;
+
+            })
+        }
+    });
+
+
+
+    //var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXX", function(data)
+    //{
+        //console.log(data.resultsPage.results.event[0].displayName)
+        //console.log(data.resultsPage.results.event[1].displayName)
+        //console.log(data.resultsPage.results.event[2].displayName)
+    //});
+
+
+    /*
+     for (i = 0; i < selected().length; i++) {
+     console.log(selected()[i].name)
+     };
+
+  */
+
+};
 
 
 

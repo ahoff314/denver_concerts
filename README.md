@@ -1,3 +1,3 @@
 ## DENVER CONCERTS TONIGHT
 
-An interactive map powered by SeatGeek and Google Maps
+An interactive map powered by Songkick and Google Maps
