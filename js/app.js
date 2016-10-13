@@ -31,7 +31,6 @@ var ViewModel = function() {
 
         });
 
-    var concert;
 
     // Songkick API
 
@@ -58,13 +57,14 @@ var ViewModel = function() {
 
             // SONGKICK API
             songkick = venue.id
+            var concert;
 
             $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
             {
 
                 concert = data.resultsPage.results.event[0].displayName
-                console.log(concert)
                 //console.log(concert)
+
 
             });
 
