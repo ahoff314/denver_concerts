@@ -10,16 +10,16 @@ var ViewModel = function() {
     
     self.venues = ko.observableArray([
       
-        {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484},
-        {name: 'Ogden Theater', lat: 39.7403, lng: -104.9753},
-        {name: 'Hi Dive', lat: 39.7163, lng: -104.9879},
-        {name: 'Fillmore', lat: 39.7406, lng: -104.9772},
-        {name: 'Paramount Theatre', lat: 39.7444, lng: -104.9903},
-        {name: 'Larimer Lounge', lat: 39.7599, lng: -104.9838},
-        {name: 'Summit Music Hall', lat: 39.7533, lng: -104.9951},
-        {name: '3 Kings', lat: 39.7154, lng: -104.9873},
-        {name: 'Cervantes', lat: 39.7545, lng: -104.9787},
-        {name: 'Gothic Theatre', lat: 39.6577, lng: -104.9878}
+        {name: 'Bluebird Theater', lat: 39.7403, lng: -104.9484, id: 10459},
+        {name: 'Ogden Theater', lat: 39.7403, lng: -104.9753, id: 537},
+        {name: 'Hi Dive', lat: 39.7163, lng: -104.9879, id: 2951},
+        {name: 'Fillmore', lat: 39.7406, lng: -104.9772, id: 1009},
+        {name: 'Paramount Theatre', lat: 39.7444, lng: -104.9903, id: 1171},
+        {name: 'Larimer Lounge', lat: 39.7599, lng: -104.9838, id: 11428},
+        {name: 'Summit Music Hall', lat: 39.7533, lng: -104.9951, id: 836146},
+        {name: '3 Kings', lat: 39.7154, lng: -104.9873, id: 171428},
+        {name: 'Cervantes Ballroom', lat: 39.7545, lng: -104.9787, id: 5668},
+        {name: 'Gothic Theatre', lat: 39.6577, lng: -104.9878, id: 5229}
        
         
         ]);
@@ -32,9 +32,11 @@ var ViewModel = function() {
         });
 
     var concert;
-    // SONGKICK API
 
-     $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
+    // Songkick API
+
+    /*
+    $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
     {
 
         concert = data.resultsPage.results.event[0].displayName
@@ -42,17 +44,29 @@ var ViewModel = function() {
         //console.log(data.resultsPage.results.event[2].displayName)
     });
 
-
+    */
 
     // Loop through array to drop marker on each venue
         self.venues().forEach(function (venue) {
-          
+
             marker = new google.maps.Marker({
             map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
             title: venue.name,
             animation: google.maps.Animation.DROP
-          })
+          });
+
+            // SONGKICK API
+            songkick = venue.id
+
+            $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
+            {
+
+                concert = data.resultsPage.results.event[0].displayName
+                console.log(concert)
+                //console.log(concert)
+
+            });
 
 
           // Add listener for info windows on each map marker
