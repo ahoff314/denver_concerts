@@ -31,6 +31,19 @@ var ViewModel = function() {
 
         });
 
+    var concert;
+    // SONGKICK API
+
+     $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
+    {
+
+        concert = data.resultsPage.results.event[0].displayName
+        //console.log(data.resultsPage.results.event[1].displayName)
+        //console.log(data.resultsPage.results.event[2].displayName)
+    });
+
+
+
     // Loop through array to drop marker on each venue
         self.venues().forEach(function (venue) {
           
@@ -41,11 +54,14 @@ var ViewModel = function() {
             animation: google.maps.Animation.DROP
           })
 
-          
+
           // Add listener for info windows on each map marker
           marker.addListener('click', (function() {
-            infowindow.setContent(venue.name);
-            infowindow.open(denverMap, this);
+              contentString =
+                  '<h1>' + venue.name + '</h1>' +
+                   '<p>' + concert + '</p>'
+              infowindow.setContent(contentString);
+              infowindow.open(denverMap, this);
 
          }));
         //console.log(marker)
@@ -60,10 +76,8 @@ var ViewModel = function() {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
                 var filter = venue.name
                 var match = self.selectedVenues().includes(filter)
-                for (var i=0; i < self.selectedVenues.length; i++){
-                    marker[i].setVisible(true);
+                this.marker.setVisible(match)
 
-                }
 
                 console.log(match)
                 return match;
@@ -73,13 +87,6 @@ var ViewModel = function() {
     });
 
 
-
-    //var concert = $.getJSON("https://api.songkick.com/api/3.0/venues/10459/calendar.json?apikey=XXXXXXXXXX", function(data)
-    //{
-        //console.log(data.resultsPage.results.event[0].displayName)
-        //console.log(data.resultsPage.results.event[1].displayName)
-        //console.log(data.resultsPage.results.event[2].displayName)
-    //});
 
 
     /*
