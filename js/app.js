@@ -27,9 +27,9 @@ var ViewModel = function() {
     // Selected venues filter
     selectedVenues = ko.observableArray([]);
 
-        var infowindow = new google.maps.InfoWindow({
+    var infowindow = new google.maps.InfoWindow({
 
-        });
+    });
 
 
     // Songkick API
@@ -44,6 +44,7 @@ var ViewModel = function() {
     });
 
     */
+    var markers = [];
 
     // Loop through array to drop marker on each venue
         self.venues().forEach(function (venue) {
@@ -55,16 +56,18 @@ var ViewModel = function() {
             animation: google.maps.Animation.DROP
           });
 
+
             // SONGKICK API
             songkick = venue.id
-            var concert;
+            var concert, concert1, concert2;
 
             $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
             {
 
                 concert = data.resultsPage.results.event[0].displayName
+                //concert1 = data.resultsPage.results.event[1].displayName
+                //concert2 = data.resultsPage.results.event[2].displayName
                 //console.log(concert)
-
 
             });
 
@@ -73,27 +76,36 @@ var ViewModel = function() {
           marker.addListener('click', (function() {
               contentString =
                   '<h1>' + venue.name + '</h1>' +
-                   '<p>' + concert + '</p>'
-              infowindow.setContent(contentString);
+                  '<p>' + concert + '</p>'
+
+                  infowindow.setContent(contentString);
               infowindow.open(denverMap, this);
 
          }));
-        //console.log(marker)
+
+
+            venue.marker = marker
         return marker;
         });
 
     // Return selected values
-    selected = ko.computed( function() {
+    selected = ko.computed( function(venue) {
         if (self.selectedVenues().length === 0) {
-            return self.venues();
+            return ko.utils.arrayFilter(self.venues(), function(venue) {
+
+                venue.marker.setVisible(true);
+
+
+                //console.log(match)
+                return true;
+
+            })
         } else {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
                 var filter = venue.name
-                var match = self.selectedVenues().includes(filter)
-                this.marker.setVisible(match)
+                var match = self.selectedVenues().includes(filter);
+                venue.marker.setVisible(match);
 
-
-                console.log(match)
                 return match;
 
             })
@@ -215,7 +227,6 @@ var ViewModel = function() {
     // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
     $(document).ready(function() {
         $('#multiselect-includeSelectAllOption').multiselect({
-            includeSelectAllOption: true,
             enableCaseInsensitiveFiltering: true
         });
     });
