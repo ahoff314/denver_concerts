@@ -44,7 +44,7 @@ var ViewModel = function() {
     });
 
     */
-    var markers = [];
+
 
     // Loop through array to drop marker on each venue
         self.venues().forEach(function (venue) {
@@ -71,30 +71,36 @@ var ViewModel = function() {
 
             });
 
-
+            venue.marker = marker
           // Add listener for info windows on each map marker
-          marker.addListener('click', (function() {
+          marker.addListener('click', function () {
+              venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+              setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
               contentString =
                   '<h1>' + venue.name + '</h1>' +
                   '<p>' + concert + '</p>'
 
-                  infowindow.setContent(contentString);
+              infowindow.setContent(contentString);
               infowindow.open(denverMap, this);
 
-         }));
+          });
 
 
-            venue.marker = marker
+
         return marker;
         });
 
+    // Concerts tonight function
+
+
     // Return selected values
-    selected = ko.computed( function(venue) {
+    selected = ko.computed( function() {
         if (self.selectedVenues().length === 0) {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
 
                 venue.marker.setVisible(true);
 
+                // concerts tonight turn icons green
 
                 //console.log(match)
                 return true;
