@@ -76,11 +76,10 @@ var ViewModel = function() {
               venue.marker.setAnimation(google.maps.Animation.BOUNCE);
               setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
               contentString =
-                  '<h1>' + venue.name + '</h1>' +
+                  '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
                   '<p>' + concert + '</p>' +
                   '<p>' + concert1 + '</p>' +
-                  '<p>' + concert2 + '</p>' +
-                  '<a href=http://www.songkick.com/venues/' + venue.id +'>' + venue.name + ' Events // GET TICKETS </a>'
+                  '<p>' + concert2 + '</p>'
 
               infowindow.setContent(contentString);
               infowindow.open(denverMap, this);
