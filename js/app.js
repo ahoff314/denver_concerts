@@ -64,10 +64,9 @@ var ViewModel = function() {
             $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function(data)
             {
 
-                concert = data.resultsPage.results.event[0].displayName
-                //concert1 = data.resultsPage.results.event[1].displayName
-                //concert2 = data.resultsPage.results.event[2].displayName
-                //console.log(concert)
+                concert = data.resultsPage.results.event[0].displayName;
+                concert1 = data.resultsPage.results.event[1].displayName;
+                concert2 = data.resultsPage.results.event[2].displayName;
 
             });
 
@@ -78,7 +77,10 @@ var ViewModel = function() {
               setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
               contentString =
                   '<h1>' + venue.name + '</h1>' +
-                  '<p>' + concert + '</p>'
+                  '<p>' + concert + '</p>' +
+                  '<p>' + concert1 + '</p>' +
+                  '<p>' + concert2 + '</p>' +
+                  '<a href=http://www.songkick.com/venues/' + venue.id +'>' + venue.name + ' Events // GET TICKETS </a>'
 
               infowindow.setContent(contentString);
               infowindow.open(denverMap, this);
@@ -118,15 +120,6 @@ var ViewModel = function() {
         }
     });
 
-
-
-
-    /*
-     for (i = 0; i < selected().length; i++) {
-     console.log(selected()[i].name)
-     };
-
-  */
 
 };
 
