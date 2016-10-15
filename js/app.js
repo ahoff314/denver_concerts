@@ -24,21 +24,15 @@ var ViewModel = function() {
 
     ]);
 
-    // Selected venues filter
+    // Selected venues array
     selectedVenues = ko.observableArray([]);
 
-    var infowindow = new google.maps.InfoWindow({
+    var infowindow = new google.maps.InfoWindow({});
 
-    });
-
-
-    // Songkick API
-
-
-
-    // Loop through array to drop marker on each venue
+    // Loop through array to drop marker at each venue
     self.venues().forEach(function (venue) {
 
+        // Create markers
         marker = new google.maps.Marker({
             map: denverMap,
             position: new google.maps.LatLng(venue.lat, venue.lng),
@@ -47,13 +41,13 @@ var ViewModel = function() {
         });
 
 
-        // SONGKICK API
-        songkick_id = venue.id
+        // Songkick API - GET venue name, three upcoming concerts, and dates
+        songkick_id = venue.id;
         var concert, concert1, concert2;
 
         $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function (data) {
 
-            console.log("success")
+            console.log("Success")
 
             concert = data.resultsPage.results.event[0].performance[0].artist.displayName;
             concert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
@@ -63,12 +57,12 @@ var ViewModel = function() {
             date1 = data.resultsPage.results.event[1].start.date;
             date2 = data.resultsPage.results.event[2].start.date;
 
-
         }).fail(function() {
             alert("Error loading Songkick data...");
         });
 
         venue.marker = marker
+
         // Add listener for info windows on each map marker
         marker.addListener('click', function () {
             venue.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -84,28 +78,21 @@ var ViewModel = function() {
 
         });
 
-
-
         return marker;
     });
 
-    // Concerts tonight function
 
-
-    // Return selected values
     selected = ko.computed( function() {
+        // If there are no selected venues make all map markers visible
         if (self.selectedVenues().length === 0) {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
 
                 venue.marker.setVisible(true);
-
-                // concerts tonight turn icons green
-
-                //console.log(match)
                 return true;
 
             })
         } else {
+            // Filter selected venues to make only selected map markers visible
             return ko.utils.arrayFilter(self.venues(), function(venue) {
                 var filter = venue.name
                 var match = self.selectedVenues().includes(filter);
@@ -123,7 +110,7 @@ var ViewModel = function() {
 
 
 function initMap() {
-    // Styles a map in night mode via Google Maps API documentation
+    // Styles a map in dark theme via Google Maps API documentation
 
     denverMap = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 39.7392, lng: -104.9903},
@@ -212,12 +199,9 @@ function initMap() {
 
     });
 
-
-
-
     ko.applyBindings(new ViewModel());
 
-};
+}
 
 
 // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
@@ -226,21 +210,3 @@ $(document).ready(function() {
         enableCaseInsensitiveFiltering: true
     });
 });
-
-
-/*
-                $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function (data) {
-
-                    console.log("success")
-
-                    concert = data.resultsPage.results.event[0].performance[0].artist.displayName;
-                    concert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
-                    concert2 = data.resultsPage.results.event[2].performance[0].artist.displayName;
-
-                    date = data.resultsPage.results.event[0].start.date;
-                    date1 = data.resultsPage.results.event[1].start.date;
-                    date2 = data.resultsPage.results.event[2].start.date;
-
-
-                });
-*/
