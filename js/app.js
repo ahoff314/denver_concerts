@@ -45,8 +45,9 @@ var ViewModel = function() {
         var concert, concert1, concert2;
 
 
+
         // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
-        $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
+        $.getJSON("https://api.songkkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
 
             console.log("Success");
 
@@ -59,13 +60,14 @@ var ViewModel = function() {
             date2 = data.resultsPage.results.event[2].start.date;
 
         }).fail(function() {
-            error = true;
+             error = true;
 
         });
 
-        // fail function calls function if fail = true then alert
 
         venue.marker = marker;
+
+        // TODO: When clicking venue in list filter, make infowindow pop up
 
         // Add listener for info windows on each map marker
         marker.addListener('click', function () {
@@ -75,7 +77,8 @@ var ViewModel = function() {
             if (error === true) {
                 contentString =
                     '<h1>' + venue.name + '</h1>' +
-                    '<p><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> Upcoming events </a></p>'
+                    '<p> Error loading Songkick data... </p>' +
+                    '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>'
             } else {
                 contentString =
                     '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
@@ -92,7 +95,7 @@ var ViewModel = function() {
         return marker;
     });
 
-    //if (error === true) alert("Error loading Songkick data...");
+
 
 
     selected = ko.computed( function() {
