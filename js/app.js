@@ -3,8 +3,6 @@ var self = this;
 var marker;
 venues = [];
 
-
-
 var ViewModel = function() {
 
 
@@ -47,7 +45,7 @@ var ViewModel = function() {
 
         $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function (data) {
 
-            console.log("Success")
+            console.log("Success");
 
             concert = data.resultsPage.results.event[0].performance[0].artist.displayName;
             concert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
@@ -61,7 +59,7 @@ var ViewModel = function() {
             alert("Error loading Songkick data...");
         });
 
-        venue.marker = marker
+        venue.marker = marker;
 
         // Add listener for info windows on each map marker
         marker.addListener('click', function () {
@@ -71,7 +69,7 @@ var ViewModel = function() {
                 '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
                 '<p><strong>' + date + '</strong>' + ' ' + concert + '</p>' +
                 '<p><strong>' + date1 + '</strong>' + ' ' + concert1 + '</p>' +
-                '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>'
+                '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>';
 
             infowindow.setContent(contentString);
             infowindow.open(denverMap, this);
@@ -90,17 +88,17 @@ var ViewModel = function() {
                 venue.marker.setVisible(true);
                 return true;
 
-            })
+            });
         } else {
             // Filter selected venues to make only selected map markers visible
             return ko.utils.arrayFilter(self.venues(), function(venue) {
-                var filter = venue.name
+                var filter = venue.name;
                 var match = self.selectedVenues().includes(filter);
                 venue.marker.setVisible(match);
 
                 return match;
 
-            })
+            });
         }
     });
 
