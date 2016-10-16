@@ -1,6 +1,7 @@
 var denverMap;
 var self = this;
 var marker;
+var error;
 venues = [];
 
 var ViewModel = function() {
@@ -43,7 +44,9 @@ var ViewModel = function() {
         songkick_id = venue.id;
         var concert, concert1, concert2;
 
-        $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU", function (data) {
+
+        // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
+        $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
 
             console.log("Success");
 
@@ -56,8 +59,11 @@ var ViewModel = function() {
             date2 = data.resultsPage.results.event[2].start.date;
 
         }).fail(function() {
-            alert("Error loading Songkick data...");
+            error = true;
+
         });
+
+        // fail function calls function if fail = true then alert
 
         venue.marker = marker;
 
@@ -65,11 +71,18 @@ var ViewModel = function() {
         marker.addListener('click', function () {
             venue.marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
-            contentString =
-                '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
-                '<p><strong>' + date + '</strong>' + ' ' + concert + '</p>' +
-                '<p><strong>' + date1 + '</strong>' + ' ' + concert1 + '</p>' +
-                '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>';
+
+            if (error === true) {
+                contentString =
+                    '<h1>' + venue.name + '</h1>' +
+                    '<p><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> Upcoming events </a></p>'
+            } else {
+                contentString =
+                    '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
+                    '<p><strong>' + date + '</strong>' + ' ' + concert + '</p>' +
+                    '<p><strong>' + date1 + '</strong>' + ' ' + concert1 + '</p>' +
+                    '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>';
+            }
 
             infowindow.setContent(contentString);
             infowindow.open(denverMap, this);
@@ -78,6 +91,8 @@ var ViewModel = function() {
 
         return marker;
     });
+
+    //if (error === true) alert("Error loading Songkick data...");
 
 
     selected = ko.computed( function() {
