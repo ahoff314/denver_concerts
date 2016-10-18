@@ -90,6 +90,7 @@ var ViewModel = function() {
             infowindow.setContent(contentString);
             infowindow.open(denverMap, this);
 
+
         });
 
 
@@ -108,18 +109,18 @@ var ViewModel = function() {
             });
         } else {
             // Filter selected venues to make only selected map markers visible
-            return ko.utils.arrayFilter(self.venues(), function(venue) {
+            ko.utils.arrayFilter(self.venues(), function(venue) {
                 var filter = venue.name;
                 var match = self.selectedVenues().includes(filter);
-                venue.marker.setVisible(match);
 
-                infowindow.setContent('<h1> Please work</h1>')
-                infowindow.open(denverMap, self.marker);
+                venue.marker.setVisible(match);
 
                 return match;
 
             });
+
         }
+
     });
 
     // JQUERY click event on list item, display info window
