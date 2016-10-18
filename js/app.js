@@ -123,12 +123,19 @@ var ViewModel = function() {
 
     });
 
-    // JQUERY click event on list item, display info window
 
     $( ".jumbotron" ).click(function() {
         alert( "Keep trucking along! :)" );
     });
 
+
+    self.openInfo = function() {
+
+        console.log("Click binding works...")
+        google.maps.event.trigger(venue.marker, 'click');
+
+
+    };
 
 };
 
