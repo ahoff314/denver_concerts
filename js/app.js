@@ -78,7 +78,7 @@ var ViewModel = function() {
                 contentString =
                     '<h1>' + venue.name + '</h1>' +
                     '<p> Error loading Songkick data... </p>' +
-                    '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>'
+                    '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>';
             } else {
                 contentString =
                     '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
@@ -129,10 +129,18 @@ var ViewModel = function() {
     });
 
 
-    self.openInfo = function() {
+    self.openInfo = function(venue) {
 
-        console.log("Click binding works...")
-        google.maps.event.trigger(venue.marker, 'click');
+        console.log("Click binding works...");
+
+        venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
+
+        self.infoWindow.setContent(venue.contentString);
+        self.infoWindow.open(denverMap, venue.marker);
+
+
+        //google.maps.event.trigger(venue.marker, 'click');
 
 
     };
