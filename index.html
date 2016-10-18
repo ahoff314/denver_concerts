@@ -38,12 +38,18 @@
     <div class="jumbotron text-center">
         <img src="img/powered.png" class="img-responsive center-block">
     </div>
-    
 
+    <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="foreach: venues,
+    selectedOptions: selectedVenues">
+        <option data-bind="text: name, click: $parent.openInfo"></option>
+    </select>
+
+<!--
     <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="options: venues,
     selectedOptions: selectedVenues, optionsText: 'name', optionsValue: 'name', visible: venues">
     </select>
-    
+
+    -->
 
     
     <div id="map"></div>

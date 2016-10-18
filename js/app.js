@@ -23,6 +23,9 @@ var ViewModel = function() {
 
     ]);
 
+    // Venue names array for list view options
+    this.venue_names = ko.observableArray(venues.slice(0));
+
     // Selected venues array
     selectedVenues = ko.observableArray([]);
 
@@ -44,10 +47,8 @@ var ViewModel = function() {
         songkick_id = venue.id;
         var concert, concert1, concert2;
 
-
-
         // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
-        $.getJSON("https://api.songkkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
+        $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
 
             console.log("Success");
 
@@ -67,7 +68,6 @@ var ViewModel = function() {
 
         venue.marker = marker;
 
-        // TODO: When clicking venue in list filter, make infowindow pop up
 
         // Add listener for info windows on each map marker
         marker.addListener('click', function () {
@@ -92,10 +92,9 @@ var ViewModel = function() {
 
         });
 
+
         return marker;
     });
-
-
 
 
     selected = ko.computed( function() {
@@ -114,10 +113,19 @@ var ViewModel = function() {
                 var match = self.selectedVenues().includes(filter);
                 venue.marker.setVisible(match);
 
+                infowindow.setContent('<h1> Please work</h1>')
+                infowindow.open(denverMap, self.marker);
+
                 return match;
 
             });
         }
+    });
+
+    // JQUERY click event on list item, display info window
+
+    $( ".jumbotron" ).click(function() {
+        alert( "Keep trucking along! :)" );
     });
 
 
