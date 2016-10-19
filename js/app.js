@@ -140,10 +140,16 @@ var ViewModel = function() {
         self.infoWindow.open(denverMap, venue.marker);
 
 
+        // Need to define contentString?
+
         //google.maps.event.trigger(venue.marker, 'click');
 
 
     };
+
+    self.showInfo = function(option, checked, select){
+        alert("alert")
+    }
 
 };
 
@@ -239,14 +245,22 @@ function initMap() {
 
     });
 
-    ko.applyBindings(new ViewModel());
+
+    var viewmodel = new ViewModel();
+
+    ko.applyBindings(viewmodel);
+
+    function showInfo(option, checked, select){
+        alert("Alert alert")
+    }
+
+// Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
+    $(document).ready(function() {
+        $('#multiselect-includeSelectAllOption').multiselect({
+            enableCaseInsensitiveFiltering: true,
+            onChange: showInfo
+        });
+    });
 
 }
 
-
-// Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
-$(document).ready(function() {
-    $('#multiselect-includeSelectAllOption').multiselect({
-        enableCaseInsensitiveFiltering: true
-    });
-});
