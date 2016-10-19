@@ -123,12 +123,7 @@ var ViewModel = function() {
 
     });
 
-
-    $( ".jumbotron" ).click(function() {
-        alert( "Keep trucking along! :)" );
-    });
-
-
+/*
     self.openInfo = function(venue) {
 
         console.log("Click binding works...");
@@ -146,10 +141,21 @@ var ViewModel = function() {
 
 
     };
+*/
 
-    self.showInfo = function(option, checked, select){
-        alert("alert")
+    function showInfo(option, checked, select){
+        console.log('This is working. Changed: '  + $(option).val() + '.')
     }
+
+
+// Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
+    $(document).ready(function() {
+        $('#multiselect-includeSelectAllOption').multiselect({
+            enableCaseInsensitiveFiltering: true,
+            onChange: showInfo
+        });
+    });
+
 
 };
 
@@ -249,18 +255,6 @@ function initMap() {
     var viewmodel = new ViewModel();
 
     ko.applyBindings(viewmodel);
-
-    function showInfo(option, checked, select){
-        alert("Alert alert")
-    }
-
-// Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
-    $(document).ready(function() {
-        $('#multiselect-includeSelectAllOption').multiselect({
-            enableCaseInsensitiveFiltering: true,
-            onChange: showInfo
-        });
-    });
 
 }
 
