@@ -43,7 +43,7 @@ var ViewModel = function() {
 
         // Songkick API - GET venue name, three upcoming concerts, and dates
         songkick_id = venue.id;
-        var concert, concert1, concert2;
+        //var concert, concert1, concert2;
 
         // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
         $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
@@ -126,24 +126,56 @@ var ViewModel = function() {
 
     function showInfo(option, checked, select){
         console.log('This is working. Changed: '  + $(option).val() + '.')
-        // loop through venues array filter the option value text, select that object, do stuff with it
+
+        // Compare onChange value to venues array and manipulate applicable map marker and info window
         self.venues().forEach(function (venue) {
+
+
             if ($(option).val() == venue.name){
-                console.log("MATCH")
+
+                songkick_id = venue.id;
+
+
+                // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
+                $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
+
+                    console.log("Success");
+
+                    concert = data.resultsPage.results.event[0].performance[0].artist.displayName;
+                    concert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
+                    concert2 = data.resultsPage.results.event[2].performance[0].artist.displayName;
+
+                    date = data.resultsPage.results.event[0].start.date;
+                    date1 = data.resultsPage.results.event[1].start.date;
+                    date2 = data.resultsPage.results.event[2].start.date;
+
+                }).fail(function() {
+                    error = true;
+
+                });
+
+                if (error === true) {
+                    contentString =
+                        '<h1>' + venue.name + '</h1>' +
+                        '<p> Error loading Songkick data... </p>' +
+                        '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>';
+                } else {
+                    contentString =
+                        '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
+                        '<p><strong>' + date + '</strong>' + ' ' + concert + '</p>' +
+                        '<p><strong>' + date1 + '</strong>' + ' ' + concert1 + '</p>' +
+                        '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>';
+                }
+
 
                 venue.marker.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
 
-                infowindow.setContent('<h1>' + venue.name + '</h1>');
+                infowindow.setContent(contentString);
                 infowindow.open(denverMap, venue.marker);
 
-
-
-
             }
-            else {
-                console.log("Not match")
-            }
+
 
 
 
