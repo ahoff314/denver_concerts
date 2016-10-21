@@ -29,6 +29,7 @@ var ViewModel = function() {
 
     var infowindow = new google.maps.InfoWindow({});
 
+
     // Loop through array to drop marker at each venue
     self.venues().forEach(function (venue) {
 
@@ -43,7 +44,8 @@ var ViewModel = function() {
 
         // Songkick API - GET venue name, three upcoming concerts, and dates
         songkick_id = venue.id;
-        //var concert, concert1, concert2;
+
+        var concert, concert1, concert2;
 
         // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
         $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
@@ -67,7 +69,7 @@ var ViewModel = function() {
         venue.marker = marker;
 
 
-        // Add listener for info windows on each map marker
+        // Add listener for info windows on each map marker. Click event activates markers and info windows
         marker.addListener('click', function () {
             venue.marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
@@ -88,15 +90,14 @@ var ViewModel = function() {
             infowindow.setContent(contentString);
             infowindow.open(denverMap, this);
 
-
         });
-
 
         return marker;
     });
 
 
     selected = ko.computed( function() {
+
         // If there are no selected venues make all map markers visible
         if (self.selectedVenues().length === 0) {
             return ko.utils.arrayFilter(self.venues(), function(venue) {
@@ -112,20 +113,17 @@ var ViewModel = function() {
                 var match = self.selectedVenues().includes(filter);
 
                 venue.marker.setVisible(match);
-
-
-
                 return match;
 
             });
-
         }
-
-
     });
 
+
+    // Triggered when there is a change in the list view
     function showInfo(option, checked, select){
-        console.log('This is working. Changed: '  + $(option).val() + '.')
+
+        //var concert, concert1, concert2;
 
         // Compare onChange value to venues array and manipulate applicable map marker and info window
         self.venues().forEach(function (venue) {
@@ -175,20 +173,8 @@ var ViewModel = function() {
                 infowindow.open(denverMap, venue.marker);
 
             }
-
-
-
-
         });
-
-
-
-        //infowindow.setContent('<h1>' + $(option).val() + '</h1>');
-        //infowindow.open(denverMap, marker);
-
-
     }
-
 
 
     // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
@@ -198,31 +184,7 @@ var ViewModel = function() {
             onChange: showInfo
         });
     });
-
-
-    /*
-        self.openInfo = function(venue) {
-
-            console.log("Click binding works...");
-
-            venue.marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
-
-            self.infoWindow.setContent(venue.contentString);
-            self.infoWindow.open(denverMap, venue.marker);
-
-
-            // Need to define contentString?
-
-            //google.maps.event.trigger(venue.marker, 'click');
-
-
-        };
-    */
-
-
 };
-
 
 
 function initMap() {
@@ -321,4 +283,3 @@ function initMap() {
     ko.applyBindings(viewmodel);
 
 }
-
