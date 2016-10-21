@@ -23,8 +23,6 @@ var ViewModel = function() {
 
     ]);
 
-    // Venue names array for list view options
-    this.venue_names = ko.observableArray(venues.slice(0));
 
     // Selected venues array
     selectedVenues = ko.observableArray([]);
@@ -115,46 +113,58 @@ var ViewModel = function() {
 
                 venue.marker.setVisible(match);
 
+                venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
+
+                infowindow.setContent('<h1> Is this working fam?</h1>');
+                infowindow.open(denverMap, self.marker);
+
+
+
                 return match;
 
             });
 
         }
 
+
     });
-
-/*
-    self.openInfo = function(venue) {
-
-        console.log("Click binding works...");
-
-        venue.marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
-
-        self.infoWindow.setContent(venue.contentString);
-        self.infoWindow.open(denverMap, venue.marker);
-
-
-        // Need to define contentString?
-
-        //google.maps.event.trigger(venue.marker, 'click');
-
-
-    };
-*/
 
     function showInfo(option, checked, select){
         console.log('This is working. Changed: '  + $(option).val() + '.')
+
     }
 
 
-// Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
+
+    // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
     $(document).ready(function() {
         $('#multiselect-includeSelectAllOption').multiselect({
             enableCaseInsensitiveFiltering: true,
             onChange: showInfo
         });
     });
+
+
+    /*
+        self.openInfo = function(venue) {
+
+            console.log("Click binding works...");
+
+            venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
+
+            self.infoWindow.setContent(venue.contentString);
+            self.infoWindow.open(denverMap, venue.marker);
+
+
+            // Need to define contentString?
+
+            //google.maps.event.trigger(venue.marker, 'click');
+
+
+        };
+    */
 
 
 };

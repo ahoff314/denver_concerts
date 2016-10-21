@@ -39,12 +39,10 @@
         <img src="img/powered.png" class="img-responsive center-block">
     </div>
 
+
     <select id="multiselect-includeSelectAllOption" multiple="multiple" data-bind="foreach: venues,
     selectedOptions: selectedVenues">
-        <option data-bind="text: name, click: function(){
-        console.log("Is this working...")}
-
-        "></option>
+        <option data-bind="text: name"></option>
     </select>
 
 <!--
