@@ -113,12 +113,6 @@ var ViewModel = function() {
 
                 venue.marker.setVisible(match);
 
-                venue.marker.setAnimation(google.maps.Animation.BOUNCE);
-                setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
-
-                infowindow.setContent('<h1> Is this working fam?</h1>');
-                infowindow.open(denverMap, self.marker);
-
 
 
                 return match;
@@ -132,6 +126,34 @@ var ViewModel = function() {
 
     function showInfo(option, checked, select){
         console.log('This is working. Changed: '  + $(option).val() + '.')
+        // loop through venues array filter the option value text, select that object, do stuff with it
+        self.venues().forEach(function (venue) {
+            if ($(option).val() == venue.name){
+                console.log("MATCH")
+
+                venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
+
+                infowindow.setContent('<h1>' + venue.name + '</h1>');
+                infowindow.open(denverMap, venue.marker);
+
+
+
+
+            }
+            else {
+                console.log("Not match")
+            }
+
+
+
+        });
+
+
+
+        //infowindow.setContent('<h1>' + $(option).val() + '</h1>');
+        //infowindow.open(denverMap, marker);
+
 
     }
 
