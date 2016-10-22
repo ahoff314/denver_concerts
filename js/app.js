@@ -2,8 +2,6 @@ var denverMap;
 var self = this;
 var marker;
 var error;
-var showConcert;
-var showDate;
 venues = [];
 
 var ViewModel;
@@ -71,7 +69,6 @@ ViewModel = function () {
 
         venue.marker = marker;
 
-
         // Add listener for info windows on each map marker. Click event activates markers and info windows
         marker.addListener('click', function () {
             venue.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -128,12 +125,8 @@ ViewModel = function () {
     // Triggered when there is a change in the list view
     function showInfo(option, checked, select) {
 
-        //var concert, concert1, concert2;
-
-
         // Compare onChange value to venues array and manipulate applicable map marker and info window
         self.venues().forEach(function (venue) {
-
 
             if ($(option).val() === venue.name) {
 
@@ -149,16 +142,19 @@ ViewModel = function () {
 
                     console.log("Success");
 
-
                     showConcert = data.resultsPage.results.event[0].performance[0].artist.displayName;
-                    console.log(showConcert)
+                    showConcert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
+                    showConcert2 = data.resultsPage.results.event[2].performance[0].artist.displayName;
 
                     showDate = data.resultsPage.results.event[0].start.date;
-                    console.log(showDate);
+                    showDate1 = data.resultsPage.results.event[1].start.date;
+                    showDate2 = data.resultsPage.results.event[2].start.date;
 
                     contentString =
                         '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
-                        '<p>' + showConcert + '</p>';
+                        '<p><strong>' + showDate + '</strong>' + ' ' + showConcert + '</p>' +
+                        '<p><strong>' + showDate1 + '</strong>' + ' ' + showConcert1 + '</p>' +
+                        '<p><strong>' + showDate2 + '</strong>' + ' ' + showConcert2 + '</p>';
 
 
                     infowindow.setContent(contentString);
@@ -167,13 +163,17 @@ ViewModel = function () {
 
                 }).fail(function () {
                     error = true;
+                    console.log("Fail");
+
+                    contentString =
+                        '<h1>' + venue.name + '</h1>' +
+                        '<p> Error loading Songkick data... </p>' +
+                        '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>';
+
+                    infowindow.setContent(contentString);
+                    infowindow.open(denverMap, venue.marker);
 
                 });
-
-
-                //console.log(showConcert)
-
-
             }
         });
     }
@@ -190,8 +190,8 @@ ViewModel = function () {
 
 
 function initMap() {
-    // Styles a map in dark theme via Google Maps API documentation
 
+    // Styles a map in dark theme via Google Maps API documentation
     denverMap = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 39.7392, lng: -104.9903},
         zoom: 13,
@@ -275,8 +275,6 @@ function initMap() {
                 stylers: [{color: '#17263c'}]
             }
         ]
-
-
     });
 
 
