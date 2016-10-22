@@ -2,9 +2,12 @@ var denverMap;
 var self = this;
 var marker;
 var error;
+var showConcert;
+var showDate;
 venues = [];
 
-var ViewModel = function() {
+var ViewModel;
+ViewModel = function () {
 
 
     self.venues = ko.observableArray([
@@ -18,7 +21,7 @@ var ViewModel = function() {
         {name: "3 Kings", lat: 39.7154, lng: -104.9873, id: 171428},
         {name: "Cervantes Ballroom", lat: 39.7545, lng: -104.9787, id: 5668},
         {name: "Gothic Theatre", lat: 39.6577, lng: -104.9878, id: 5229},
-        {name: "Ophelia's Electric Soapbox", lat: 39.7526, lng: -104.9920, id:2944358}
+        {name: "Ophelia's Electric Soapbox", lat: 39.7526, lng: -104.9920, id: 2944358}
 
 
     ]);
@@ -60,8 +63,8 @@ var ViewModel = function() {
             date1 = data.resultsPage.results.event[1].start.date;
             date2 = data.resultsPage.results.event[2].start.date;
 
-        }).fail(function() {
-             error = true;
+        }).fail(function () {
+            error = true;
 
         });
 
@@ -72,7 +75,9 @@ var ViewModel = function() {
         // Add listener for info windows on each map marker. Click event activates markers and info windows
         marker.addListener('click', function () {
             venue.marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
+            setTimeout(function () {
+                venue.marker.setAnimation(null);
+            }, 1450);
 
             if (error === true) {
                 contentString =
@@ -96,11 +101,11 @@ var ViewModel = function() {
     });
 
 
-    selected = ko.computed( function() {
+    selected = ko.computed(function () {
 
         // If there are no selected venues make all map markers visible
         if (self.selectedVenues().length === 0) {
-            return ko.utils.arrayFilter(self.venues(), function(venue) {
+            return ko.utils.arrayFilter(self.venues(), function (venue) {
 
                 venue.marker.setVisible(true);
                 return true;
@@ -108,7 +113,7 @@ var ViewModel = function() {
             });
         } else {
             // Filter selected venues to make only selected map markers visible
-            ko.utils.arrayFilter(self.venues(), function(venue) {
+            ko.utils.arrayFilter(self.venues(), function (venue) {
                 var filter = venue.name;
                 var match = self.selectedVenues().includes(filter);
 
@@ -121,56 +126,53 @@ var ViewModel = function() {
 
 
     // Triggered when there is a change in the list view
-    function showInfo(option, checked, select){
+    function showInfo(option, checked, select) {
 
         //var concert, concert1, concert2;
+
 
         // Compare onChange value to venues array and manipulate applicable map marker and info window
         self.venues().forEach(function (venue) {
 
 
-            if ($(option).val() == venue.name){
+            if ($(option).val() === venue.name) {
+
+                venue.marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function () {
+                    venue.marker.setAnimation(null);
+                }, 1450);
 
                 songkick_id = venue.id;
-
 
                 // JSONP used via Songkick API docs: http://www.songkick.com/developer/event-search
                 $.getJSON("https://api.songkick.com/api/3.0/venues/" + songkick_id + "/calendar.json?apikey=a3sNs8vQ4zpgjhCU&jsoncallback=?", function (data) {
 
                     console.log("Success");
 
-                    concert = data.resultsPage.results.event[0].performance[0].artist.displayName;
-                    concert1 = data.resultsPage.results.event[1].performance[0].artist.displayName;
-                    concert2 = data.resultsPage.results.event[2].performance[0].artist.displayName;
 
-                    date = data.resultsPage.results.event[0].start.date;
-                    date1 = data.resultsPage.results.event[1].start.date;
-                    date2 = data.resultsPage.results.event[2].start.date;
+                    showConcert = data.resultsPage.results.event[0].performance[0].artist.displayName;
+                    console.log(showConcert)
 
-                }).fail(function() {
+                    showDate = data.resultsPage.results.event[0].start.date;
+                    console.log(showDate);
+
+                    contentString =
+                        '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
+                        '<p>' + showConcert + '</p>';
+
+
+                    infowindow.setContent(contentString);
+                    infowindow.open(denverMap, venue.marker);
+
+
+                }).fail(function () {
                     error = true;
 
                 });
 
-                if (error === true) {
-                    contentString =
-                        '<h1>' + venue.name + '</h1>' +
-                        '<p> Error loading Songkick data... </p>' +
-                        '<p>Click<a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank"> here </a> for upcoming events</p>';
-                } else {
-                    contentString =
-                        '<h1><a href=http://www.songkick.com/venues/' + venue.id + ' target="_blank">' + venue.name + '</a></h1>' +
-                        '<p><strong>' + date + '</strong>' + ' ' + concert + '</p>' +
-                        '<p><strong>' + date1 + '</strong>' + ' ' + concert1 + '</p>' +
-                        '<p><strong>' + date2 + '</strong>' + ' ' + concert2 + '</p>';
-                }
 
+                //console.log(showConcert)
 
-                venue.marker.setAnimation(google.maps.Animation.BOUNCE);
-                setTimeout(function(){ venue.marker.setAnimation(null); }, 1450);
-
-                infowindow.setContent(contentString);
-                infowindow.open(denverMap, venue.marker);
 
             }
         });
@@ -178,7 +180,7 @@ var ViewModel = function() {
 
 
     // Uses multi select based on http://davidstutz.github.io/bootstrap-multiselect/
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#multiselect-includeSelectAllOption').multiselect({
             enableCaseInsensitiveFiltering: true,
             onChange: showInfo
